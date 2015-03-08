@@ -57,9 +57,6 @@ class ParseClient
   end
 end
 
-
-
-
 SamaHopeClient.get_listed_doctors.each do |proj|
   ParseClient.create_project(proj)
 end

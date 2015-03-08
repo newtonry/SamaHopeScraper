@@ -34,6 +34,4 @@ class Doctor
         :bio => @bio
     }.to_json
   end
-  
-  
 end
