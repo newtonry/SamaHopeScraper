@@ -1,6 +1,8 @@
 require 'nokogiri'
 require 'rest-client'
 
+require './keys.rb'
+
 require './doctor.rb'
 require './project.rb'
 require './story.rb'
@@ -41,4 +43,23 @@ class SamaHopeClient
   end
 end
 
-SamaHopeClient.get_listed_doctors
+class ParseClient
+  PARSE_JS_URL = "https://#{PARSE_APP_ID}:javascript-key=#{PARSE_JS_KEY}@api.parse.com/1/classes/"
+
+  def self.get_doctors()
+    url = PARSE_JS_URL + "Doctor/"
+    p RestClient.get url
+  end
+
+  def self.create_project(project)    
+    url = PARSE_JS_URL + "RyanProject/"
+    RestClient.post url, project.to_json
+  end
+end
+
+
+
+
+SamaHopeClient.get_listed_doctors.each do |proj|
+  ParseClient.create_project(proj)
+end

@@ -1,3 +1,5 @@
+require "json"
+
 class Doctor
   attr_accessor :name, :image, :banner, :quote, :bio
 
@@ -22,4 +24,16 @@ class Doctor
     
     Doctor.new(name, nil, banner, quote, bio)
   end
+  
+  def to_json()
+      {
+        :name => @name,
+        :image => @image,
+        :banner => @banner,
+        :quote => @quote,
+        :bio => @bio
+    }.to_json
+  end
+  
+  
 end

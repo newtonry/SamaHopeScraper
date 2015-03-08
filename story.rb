@@ -1,3 +1,5 @@
+require "json"
+
 class Story
   attr_accessor :patients, :image, :story_content
   
@@ -15,5 +17,13 @@ class Story
     end
     
     Story.new(patients, image, story_content)    
+  end
+  
+  def to_json()
+      {
+        :patients => @patients,
+        :image => @image,
+        :story_content => @story_content
+    }.to_json
   end
 end

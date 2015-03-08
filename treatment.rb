@@ -1,3 +1,5 @@
+require "json"
+
 class Treatment
     attr_accessor :name, :image, :description
     
@@ -14,5 +16,13 @@ class Treatment
         paragraph.text
       end      
       Treatment.new(name, image, description)
+    end
+    
+    def to_json()
+        {
+          :name => @name,
+          :image => @image,
+          :description => @description
+      }.to_json
     end
 end
