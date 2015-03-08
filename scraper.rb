@@ -1,5 +1,6 @@
 require 'nokogiri'
 require 'rest-client'
+require 'json'
 
 require './keys.rb'
 
@@ -8,6 +9,23 @@ require './location.rb'
 require './project.rb'
 require './story.rb'
 require './treatment.rb'
+
+def create_event_with_name(name)
+  projects = []
+
+  SamaHopeClient.get_listed_doctors.each do |proj|
+    response = ParseClient.create_project(proj)
+    parse_project = JSON.parse(response)
+  
+    projects.push({
+      "__type" => "Pointer",
+      "className" => "RyanProject",
+      "objectId" => parse_project["objectId"]})
+  end
+
+  ParseClient.create_event_with_name_and_projects(name, projects)
+end
+
 
 class SamaHopeClient
   BASE_SAMAHOPE_URL = "http://www.samahope.org/"
@@ -60,8 +78,22 @@ class ParseClient
     url = PARSE_JS_URL + "RyanProject/"
     RestClient.post url, project.to_json
   end
+
+  def self.create_event_with_name_and_projects(name, projects)
+    url = PARSE_JS_URL + "Event/"
+    event_json = {
+      name: name,
+      projects: projects
+    }.to_json
+    RestClient.post url, event_json
+  end
 end
 
-SamaHopeClient.get_listed_doctors.each do |proj|
-  ParseClient.create_project(proj)
-end
+create_event_with_name("Ryan's Donation Extravaganza!")
+
+
+
+
+
+
+
