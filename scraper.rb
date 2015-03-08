@@ -4,6 +4,7 @@ require 'rest-client'
 require './keys.rb'
 
 require './doctor.rb'
+require './location.rb'
 require './project.rb'
 require './story.rb'
 require './treatment.rb'
@@ -31,6 +32,8 @@ class SamaHopeClient
     doctor = Doctor.from_html(page)
     doctor.image = image
 
+    location = Location.from_html(page)
+
     treatment_html = page.css('div#primary div.entry-content .moat')[1]    
     treatment = Treatment.from_html(treatment_html)
 
@@ -39,7 +42,9 @@ class SamaHopeClient
       Story.from_html(story_html)
     end
   
-    Project.new(doctor, treatment, stories)
+    project = Project.new(doctor, treatment, stories, location)
+    project.set_cost_and_amount_left_from_html(page)
+    project
   end
 end
 

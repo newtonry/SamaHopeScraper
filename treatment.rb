@@ -14,7 +14,7 @@ class Treatment
       image = html.css('img.badge').first['src']
       description = html.css('div.treatment_description p').map do |paragraph|
         paragraph.text
-      end      
+      end.join("\n")
       Treatment.new(name, image, description)
     end
     
