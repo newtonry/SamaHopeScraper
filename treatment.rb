@@ -11,7 +11,7 @@ class Treatment
     
     def self.from_html(html)
       name = html.css('div.treatment_description h3').text
-      image = html.css('img.badge').first['src']
+      image = "http://www.samahope.org" + html.css('img.badge').first['src']
       description = html.css('div.treatment_description p').map do |paragraph|
         paragraph.text
       end.join("\n")

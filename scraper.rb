@@ -19,7 +19,7 @@ def create_event_with_name(name)
   
     projects.push({
       "__type" => "Pointer",
-      "className" => "RyanProject",
+      "className" => "Project",
       "objectId" => parse_project["objectId"]})
   end
 
@@ -75,7 +75,7 @@ class ParseClient
   end
 
   def self.create_project(project)    
-    url = PARSE_JS_URL + "RyanProject/"
+    url = PARSE_JS_URL + "Project/"
     RestClient.post url, project.to_json
   end
 
