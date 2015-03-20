@@ -64,6 +64,25 @@ class SamaHopeClient
     project.set_cost_and_amount_left_from_html(page)
     project
   end
+
+
+  def self.update_project_money()
+    JSON.parse(ParseClient.get_projects())['results'].each do |project|
+      self.randomly_increase_project(project)
+    end
+  end
+
+  def self.randomly_increase_project(project)
+    donation_amount = (Random.rand() * project['totalAmount']).round
+    print donation_amount
+    
+    
+    new_amount_needed = project['amountNeeded'].round - donation_amount
+    if new_amount_needed < 1
+      new_amount_needed *= -1
+    end     
+    ParseClient.update_project(project['objectId'], 'amountNeeded' => new_amount_needed)
+  end
 end
 
 class ParseClient
@@ -73,6 +92,12 @@ class ParseClient
     url = PARSE_JS_URL + "Doctor/"
     p RestClient.get url
   end
+
+  def self.get_projects()
+    url = PARSE_JS_URL + "Project/"
+    RestClient.get url
+  end
+
 
   def self.create_project(project)    
     url = PARSE_JS_URL + "Project/"
@@ -87,10 +112,18 @@ class ParseClient
     }.to_json
     RestClient.post url, event_json
   end
+  
+  def self.update_project(project_id, fields)
+    url = PARSE_JS_URL + "Project/#{project_id}"
+    print RestClient.put url, fields.to_json
+  end
+  
 end
 
-create_event_with_name("Ryan's Donation Extravaganza!")
 
+# SamaHopeClient.update_project_money()
+
+# create_event_with_name("Ryan's Donation Extravaganza!")
 
 
 
