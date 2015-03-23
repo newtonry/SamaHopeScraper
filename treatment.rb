@@ -13,8 +13,8 @@ class Treatment
       name = html.css('div.treatment_description h3').text
       image = "http://www.samahope.org" + html.css('img.badge').first['src']
       description = html.css('div.treatment_description p').map do |paragraph|
-        paragraph.text
-      end.join("\n")
+        paragraph.text.gsub("\r\n        ", "").gsub("\r\n      ", "")
+      end.join("\r\n\r\n")
       Treatment.new(name, image, description)
     end
     

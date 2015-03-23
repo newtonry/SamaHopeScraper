@@ -1,3 +1,4 @@
+require 'date'
 require 'nokogiri'
 require 'rest-client'
 require 'json'
@@ -13,9 +14,25 @@ require './treatment.rb'
 def create_event_with_name(name)
   projects = []
 
+  fake_datetime = DateTime.new(2015,3,25,10,10,0)
+
   SamaHopeClient.get_listed_doctors.each do |proj|
+    proj.speaktime = {
+      "__type" => "Date",
+      "iso" => fake_datetime.to_s
+    }
+    
+    fake_datetime += (20/1440.0)    
+    
+    print proj.speaktime.to_json
+    
+    
     response = ParseClient.create_project(proj)
+
     parse_project = JSON.parse(response)
+  
+  
+  
   
     projects.push({
       "__type" => "Pointer",
@@ -101,6 +118,10 @@ class ParseClient
 
   def self.create_project(project)    
     url = PARSE_JS_URL + "Project/"
+    
+    
+    
+    
     RestClient.post url, project.to_json
   end
 
@@ -115,7 +136,7 @@ class ParseClient
   
   def self.update_project(project_id, fields)
     url = PARSE_JS_URL + "Project/#{project_id}"
-    print RestClient.put url, fields.to_json
+    RestClient.put url, fields.to_json
   end
   
 end
@@ -123,7 +144,9 @@ end
 
 # SamaHopeClient.update_project_money()
 
-# create_event_with_name("Ryan's Donation Extravaganza!")
+# p ParseClient.get_projects
+
+create_event_with_name("Ryan's New Donation Extravaganza!")
 
 
 

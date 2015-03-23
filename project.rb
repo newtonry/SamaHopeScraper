@@ -1,7 +1,7 @@
 require "json"
 
 class Project
-  attr_accessor :doctor, :treatment, :stories
+  attr_accessor :doctor, :treatment, :stories, :speaktime
   
   def initialize(doctor, treatment, stories, location)
     @doctor = doctor
@@ -11,6 +11,7 @@ class Project
     @total_amount = nil
     @amount_needed = nil
     # @treatments_funded = nil
+    @speaktime = nil
   end
   
   def set_cost_and_amount_left_from_html(html)
@@ -18,15 +19,8 @@ class Project
     @total_amount = turn_money_to_integers(html.css('div#secondary div.progress-messaging ul.bullets span.meta-text').first.text)
     
     # @treatments_funded = turn_money_to_integers(html.css('div#secondary div.progress-messaging ul.bullets span.meta-text').first.text)
-    # html.css('div#secondary div.sidebar-nav_item div.progress-messaging ul.bullets')[1]
-    
+    # html.css('div#secondary div.sidebar-nav_item div.progress-messaging ul.bullets')[1]    
   end
-  
-  
-  
-  
-  
-  
   
   def turn_money_to_integers(text)
     text.split(" ").first.sub("$", "").to_i
@@ -45,7 +39,8 @@ class Project
       stories: @stories.map {|story| story.to_json},
       location: @location.name,
       amountNeeded: @amount_needed,
-      totalAmount: @total_amount
+      totalAmount: @total_amount,
+      speakTime: @speaktime
     }.to_json
   end
 end
