@@ -19,7 +19,7 @@ class Doctor
     
     bio = bio_moat.css('p').map do |paragraph|
       paragraph.text
-    end.join("\n")
+    end.join("\n \n")
     
     Doctor.new(name, nil, banner, quote, bio)
   end

@@ -1,7 +1,7 @@
 require "json"
 
 class Project
-  attr_accessor :doctor, :treatment, :stories, :speaktime
+  attr_accessor :doctor, :treatment, :stories, :speaktime, :doctor_topic
   
   def initialize(doctor, treatment, stories, location)
     @doctor = doctor
@@ -10,6 +10,7 @@ class Project
     @location = location
     @total_amount = nil
     @amount_needed = nil
+    @doctor_topic = nil
     # @treatments_funded = nil
     @speaktime = nil
   end
@@ -40,7 +41,10 @@ class Project
       location: @location.name,
       amountNeeded: @amount_needed,
       totalAmount: @total_amount,
-      speakTime: @speaktime
+      speakTime: @speaktime,
+      doctorTopic: @doctor_topic,
+      numDonators: Random.rand(250) + 100,
+      treatmentsFunded: Random.rand(50)
     }.to_json
   end
 end

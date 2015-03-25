@@ -35,13 +35,30 @@ def create_event_with_name(name)
 end
 
 
-CURRENT_EVENT = "vMq1FF1byq"
-
-
+CURRENT_EVENT = "UecDE4m6r3"
 
 class SamaHopeClient
   BASE_SAMAHOPE_URL = "http://www.samahope.org/"
   DOCTORS_LISTING_PAGE = "doctors/"
+
+
+  # since we don't actually have these
+  DOCTOR_TOPICS = ["The Rural 'Nobodies' of Uganda",
+  "Sawa Hero Update",
+  "Plastic Surgery For the Poor",
+  "Zambia's Only Reconstructive Surgeon",
+  "Saving Hearts in India",
+  "On Being Among the First Female Doctors in Somaliland",
+  "Homeless Health Kits of Suitcase Clinic",
+  "Fistula Repair Surgeries",
+  "A Discussion About Women’s Reproductive Health",
+  "Doctor and Friend to the Campesinos",
+  "ReSurge Surgical Outreach Program in Ecuador",
+  "Winning the Trust of the Community is the First Step Towards a Safe Birth in Nepal",
+  "How childhood trauma affects health across a lifetime"]
+
+
+
   
   def self.get_listed_doctors()
     url = BASE_SAMAHOPE_URL + DOCTORS_LISTING_PAGE
@@ -74,6 +91,9 @@ class SamaHopeClient
   
     project = Project.new(doctor, treatment, stories, location)
     project.set_cost_and_amount_left_from_html(page)
+    
+    project.doctor_topic = DOCTOR_TOPICS.shift
+    
     project
   end
 

@@ -14,7 +14,7 @@ class Story
     image = html.css('.patient-pic_wrap img').first['src']
     story_content = html.css('p').map do |paragraph|
       paragraph.text
-    end.join("\n")
+    end.join("\n \n")
     
     Story.new(patients, image, story_content)    
   end
